@@ -1,0 +1,9 @@
+.idea/
+/buildinfo.properties
+/logs/
+/project/*-shim.sbt
+/project/project/
+/project/target/
+/RUNNING_PID
+/target/
+/tmp/
