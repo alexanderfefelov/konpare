@@ -39,7 +39,7 @@ object AddressBinding extends Subject {
   object TrapLog extends Complement {
 
     override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
-      // disable address_binding trap_log
+      // enable address_binding trap_log
       model += s"feature=${Syntax.SUBJECT_ADDRESS_BINDING}=${Syntax.COMPLEMENT_TRAP_LOG}" -> Syntax.VALUE_ENABLE
     }
   }
