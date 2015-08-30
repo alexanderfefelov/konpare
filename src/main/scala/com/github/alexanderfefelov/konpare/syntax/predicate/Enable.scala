@@ -34,6 +34,7 @@ object Enable extends Predicate {
     Syntax.SUBJECT_PASSWORD -> new GenericEnable2(Syntax.SUBJECT_PASSWORD),
     Syntax.SUBJECT_PASSWORD_RECOVERY -> new GenericEnable(Syntax.SUBJECT_PASSWORD_RECOVERY),
     Syntax.SUBJECT_PORT_SECURITY -> PortSecurity,
+    Syntax.SUBJECT_SNMP -> new GenericEnable2(Syntax.SUBJECT_SNMP),
     Syntax.SUBJECT_SNTP -> new GenericEnable(Syntax.SUBJECT_SNTP),
     Syntax.SUBJECT_SYSLOG -> new GenericEnable(Syntax.SUBJECT_SYSLOG),
     Syntax.SUBJECT_TELNET -> Telnet,

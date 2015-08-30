@@ -24,8 +24,13 @@ import com.github.alexanderfefelov.konpare.syntax.{Syntax, Subject}
 class GenericDisable2(val predicate: String) extends Subject {
 
   override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
-    // disable command logging
-    model += s"feature=$predicate=${data.mkString("=")}" -> Syntax.VALUE_DISABLE
+    if (data.nonEmpty) {
+      // disable command logging
+      model += s"feature=$predicate=${data.mkString("=")}" -> Syntax.VALUE_DISABLE
+    } else {
+      // disable snmp
+      model += s"feature=$predicate" -> Syntax.VALUE_DISABLE
+    }
   }
 
 }

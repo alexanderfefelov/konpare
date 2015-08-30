@@ -38,6 +38,7 @@ object Disable extends Predicate {
     Syntax.SUBJECT_PORT_SECURITY -> new GenericDisable2(Syntax.SUBJECT_PORT_SECURITY),
     Syntax.SUBJECT_QINQ -> new GenericDisable(Syntax.SUBJECT_QINQ),
     Syntax.SUBJECT_SFLOW -> new GenericDisable(Syntax.SUBJECT_SFLOW),
+    Syntax.SUBJECT_SNMP -> new GenericDisable2(Syntax.SUBJECT_SNMP),
     Syntax.SUBJECT_SNTP -> new GenericDisable(Syntax.SUBJECT_SNTP),
     Syntax.SUBJECT_SSL -> new GenericDisable(Syntax.SUBJECT_SSL),
     Syntax.SUBJECT_SYSLOG -> new GenericDisable(Syntax.SUBJECT_SYSLOG),
