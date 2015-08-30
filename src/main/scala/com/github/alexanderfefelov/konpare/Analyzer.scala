@@ -42,6 +42,20 @@ object Analyzer {
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
 
+    // vlan names
+    //
+    if (conf.vlanNameRegex.regex.nonEmpty) {
+      val pattern = s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}"
+      val r = pattern.r
+      val invalidVlanNames = model
+        .keys
+        .filter(_ matches pattern)
+        .map(_ match { case r(g) => g })
+        .filter(! _.matches(conf.vlanNameRegex.regex))
+        .toList
+      Out.warning("invalid vlan names", invalidVlanNames)
+    }
+
     // snmp
     //
     model.get(s"feature=${Syntax.SUBJECT_SNMP}") match {

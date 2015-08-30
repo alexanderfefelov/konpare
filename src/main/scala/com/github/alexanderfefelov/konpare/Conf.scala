@@ -25,11 +25,14 @@ import java.net.InetAddress
 import scopt.OptionParser
 import version._
 
+import scala.util.matching.Regex
+
 case class Conf (
 
   input: File = new File("."),
   syslogServers: Seq[InetAddress] = List.empty,
-  sntpServers: Seq[InetAddress] = List.empty
+  sntpServers: Seq[InetAddress] = List.empty,
+  vlanNameRegex: Regex = "".r
 
 )
 
@@ -49,6 +52,8 @@ object Conf {
       c.copy(syslogServers = x) }
     opt[Seq[InetAddress]]('t', "sntp-servers") valueName "<IP-ADDRESSES>" text "comma-delimited IP addresses of SNTP servers" action { (x, c) =>
       c.copy(sntpServers = x) }
+    opt[Regex]('n', "vlan-name-regex") valueName "<REGEX>" text "regex for VLAN names" action { (x, c) =>
+      c.copy(vlanNameRegex = x) }
     help("help") text "prints this usage text"
     checkConfig { conf => success }
   }
