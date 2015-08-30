@@ -25,7 +25,7 @@ import com.github.alexanderfefelov.konpare.syntax.subject.enable._
 object Enable extends Predicate {
 
   override val subjects = Map(
-    Syntax.SUBJECT_ADDRESS_BINDING -> AddressBinding,
+    Syntax.SUBJECT_ADDRESS_BINDING -> new GenericEnable2(Syntax.SUBJECT_ADDRESS_BINDING),
     Syntax.SUBJECT_CLIPAGING -> new GenericEnable(Syntax.SUBJECT_CLIPAGING),
     Syntax.SUBJECT_DHCP_RELAY -> new GenericEnable(Syntax.SUBJECT_DHCP_RELAY),
     Syntax.SUBJECT_LLDP -> new GenericEnable(Syntax.SUBJECT_LLDP),
@@ -33,7 +33,7 @@ object Enable extends Predicate {
     Syntax.SUBJECT_MIRROR -> new GenericEnable(Syntax.SUBJECT_MIRROR),
     Syntax.SUBJECT_PASSWORD -> new GenericEnable2(Syntax.SUBJECT_PASSWORD),
     Syntax.SUBJECT_PASSWORD_RECOVERY -> new GenericEnable(Syntax.SUBJECT_PASSWORD_RECOVERY),
-    Syntax.SUBJECT_PORT_SECURITY -> PortSecurity,
+    Syntax.SUBJECT_PORT_SECURITY -> new GenericEnable2(Syntax.SUBJECT_PORT_SECURITY),
     Syntax.SUBJECT_SNMP -> new GenericEnable2(Syntax.SUBJECT_SNMP),
     Syntax.SUBJECT_SNTP -> new GenericEnable(Syntax.SUBJECT_SNTP),
     Syntax.SUBJECT_SYSLOG -> new GenericEnable(Syntax.SUBJECT_SYSLOG),
