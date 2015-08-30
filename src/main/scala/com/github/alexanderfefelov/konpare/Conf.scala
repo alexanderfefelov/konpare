@@ -22,6 +22,9 @@ package com.github.alexanderfefelov.konpare
 import java.io.File
 import java.net.InetAddress
 
+import scopt.OptionParser
+import version._
+
 case class Conf (
 
   input: File = new File("."),
@@ -29,3 +32,25 @@ case class Conf (
   sntpServers: Seq[InetAddress] = List.empty
 
 )
+
+object Conf {
+
+  val confParser = new OptionParser[Conf]("java -jar konpare.jar") {
+    head(s"${BuildInfo.name} v. ${BuildInfo.version}",
+      """
+        |
+        |Copyright (C) 2015 Alexander Fefelov <https://github.com/alexanderfefelov>
+        |This program comes with ABSOLUTELY NO WARRANTY; see LICENSE file for details.
+        |This is free software, and you are welcome to redistribute it under certain conditions; see LICENSE file for details.
+      """.stripMargin)
+    opt[File]('i', "input") required() valueName "<PATH>" text "file or directory to be processed" action { (x, c) =>
+      c.copy(input = x) }
+    opt[Seq[InetAddress]]('l', "syslog-servers") valueName "<IP-ADDRESSES>" text "comma-delimited IP addresses of syslog servers" action { (x, c) =>
+      c.copy(syslogServers = x) }
+    opt[Seq[InetAddress]]('t', "sntp-servers") valueName "<IP-ADDRESSES>" text "comma-delimited IP addresses of SNTP servers" action { (x, c) =>
+      c.copy(sntpServers = x) }
+    help("help") text "prints this usage text"
+    checkConfig { conf => success }
+  }
+
+}

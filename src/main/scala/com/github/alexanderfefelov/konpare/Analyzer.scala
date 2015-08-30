@@ -59,12 +59,12 @@ object Analyzer {
     }
     if (conf.syslogServers.nonEmpty) {
       val pattern = s"${Syntax.SUBJECT_SYSLOG}=${Syntax.COMPLEMENT_HOST}=(\\d+)=${Syntax.PARAMETER_IPADDRESS}"
-      val servers = model.filterKeys(_ matches pattern).values.toList.map(InetAddress.getByName(_))
+      val servers = model.filterKeys(_ matches pattern).values.toList.map(InetAddress.getByName)
       val validServers = servers.intersect(conf.syslogServers)
       if (validServers.isEmpty) {
         Out.warning("valid syslog servers not found")
       }
-      val invalidServers = servers.filterNot(conf.syslogServers contains _).map(_.getHostAddress.toString)
+      val invalidServers = servers.filterNot(conf.syslogServers contains _).map(_.getHostAddress)
       Out.warning("invalid syslog servers", invalidServers)
     }
 
@@ -77,12 +77,12 @@ object Analyzer {
     }
     if (conf.sntpServers.nonEmpty) {
       val pattern = s"${Syntax.SUBJECT_SNTP}=(${Syntax.PARAMETER_PRIMARY}|${Syntax.PARAMETER_SECONDARY})"
-      val servers = model.filterKeys(_ matches pattern).values.toList.map(InetAddress.getByName(_))
+      val servers = model.filterKeys(_ matches pattern).values.toList.map(InetAddress.getByName)
       val validServers = servers.intersect(conf.sntpServers)
       if (validServers.isEmpty) {
         Out.warning("valid SNTP servers not found")
       }
-      val invalidServers = servers.filterNot(conf.sntpServers contains _).map(_.getHostAddress.toString)
+      val invalidServers = servers.filterNot(conf.sntpServers contains _).map(_.getHostAddress)
       Out.warning("invalid SNTP servers", invalidServers)
     }
 
