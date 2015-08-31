@@ -10,7 +10,7 @@ __konpare__ анализирует конфигурационные файлы �
 * абонентские порты с lldp
 * включен dhcp_local_relay
 * выключен address_binding trap_log
-* выключен filter dhcp_server trap_log
+* выключен filter dhcp_server trap_log/filter dhcp_server log
 * выключен lldp
 * выключен loopdetect
 * выключен loopdetect log

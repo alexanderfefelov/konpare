@@ -161,10 +161,11 @@ object Analyzer {
     Out.warning("trunk ports with filter dhcp_server", trunkPortsWithFilterDhcpServer)
     val accessPortsWithoutFilterDhcpServer = cutNot(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
     Out.warning("access ports without filter dhcp_server", accessPortsWithoutFilterDhcpServer)
-    model.get(s"${Syntax.SUBJECT_FILTER}=dhcp_server=trap_log") match {
-      case Some(Syntax.VALUE_ENABLE) =>
+    (model.get(s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=${Syntax.COMPLEMENT_TRAP_LOG}"),
+      model.get(s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=${Syntax.COMPLEMENT_LOG}")) match {
+      case (None, None) | (Some(Syntax.VALUE_DISABLE), None) | (None, Some(Syntax.VALUE_DISABLE)) =>
+        Out.warning("filter dhcp_server trap_log/filter dhcp_server log disabled")
       case _ =>
-        Out.warning("filter dhcp_server trap_log disabled")
     }
 
     // password_encryption
