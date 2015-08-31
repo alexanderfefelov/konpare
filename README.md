@@ -1,33 +1,33 @@
 __konpare__ анализирует конфигурационные файлы коммутаторов D-Link и предупреждает об обнаружении в них следующих проблем:
 
-* port-based loopdetect
+* `port-based` `loopdetect`
 * SNMP read community не соответствует образцу
 * SNMP write community не соответствует образцу
 * абонент и магистраль в одном порту
-* абонентские порты без filter dhcp_server
-* абонентские порты без loopdetect
-* абонентские порты без port_security
-* абонентские порты с lldp
-* включен dhcp_local_relay
-* выключен address_binding trap_log
-* выключен filter dhcp_server trap_log/filter dhcp_server log
-* выключен lldp
-* выключен loopdetect
-* выключен loopdetect log
-* выключен password_encryption
-* выключен port_security trap_log/port_security log
-* выключен snmp
-* выключен sntp
-* выключен syslog
-* магистральные порты без lldp
-* магистральные порты с dhcp_relay
-* магистральные порты с filter dhcp_server
-* магистральные порты с loopdetect
+* абонентские порты без `filter dhcp_server`
+* абонентские порты без `loopdetect`
+* абонентские порты без `port_security`
+* абонентские порты с `lldp`
+* включен `dhcp_local_relay`
+* выключен `address_binding trap_log``
+* выключен `filter dhcp_server trap_log`/`filter dhcp_server log`
+* выключен `lldp`
+* выключен `loopdetect`
+* выключен `loopdetect log`
+* выключен `password_encryption`
+* выключен `port_security trap_log`/`port_security log`
+* выключен `snmp`
+* выключен `sntp`
+* выключен `syslog`
+* магистральные порты без `lldp`
+* магистральные порты с `dhcp_relay`
+* магистральные порты с `filter dhcp_server`
+* магистральные порты с `loopdetect`
 * название VLAN не соответствует образцу
 * не указан правильный SNTP-сервер
 * не указан правильный syslog-сервер
-* порты с flow control
-* порты со значениями tx_rate или rx_rate не по умолчанию
+* порты с `flow_control`
+* порты со значениями `tx_rate` или `rx_rate` не по умолчанию
 * указаны неправильные SNTP-серверы
 * указаны неправильные syslog-серверы
 
