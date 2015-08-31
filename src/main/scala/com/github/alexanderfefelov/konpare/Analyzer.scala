@@ -42,6 +42,18 @@ object Analyzer {
     val vlanTags = model.filterKeys(_ matches s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}").values.toList
     Out.info("VLAN tags", vlanTags)
 
+    val vlanNames = cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}", ".*")
+    Out.info("VLAN names", vlanNames)
+
+    val vlansWithoutPorts = vlanNames.diff(cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_TAGGED}=\\d+", "yes")
+      .union(cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_UNTAGGED}=\\d+", "yes"))
+      .distinct)
+    Out.warning("VLANs without ports", vlansWithoutPorts)
+
+    val vlanPorts =  trunkPorts.union(accessPorts)
+    val portsWithoutVlan = enabledPorts.diff(vlanPorts)
+    Out.warning("ports without VLAN", portsWithoutVlan)
+
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
 
@@ -57,10 +69,10 @@ object Analyzer {
     val portsWithFlowControl = cutNot(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_FLOW_CONTROL}", Syntax.VALUE_DISABLE)
     Out.warning("ports with flow_control", portsWithFlowControl)
 
-    // vlan names
+    // VLANs
     //
     if (conf.vlanNameRegex.regex.nonEmpty) {
-      val invalidVlanNames = cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}", ".*")
+      val invalidVlanNames = vlanNames
         .filter(! _.matches(conf.vlanNameRegex.regex))
       Out.warning("invalid VLAN names", invalidVlanNames)
     }
