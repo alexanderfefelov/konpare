@@ -27,16 +27,16 @@ object Analyzer {
 
   def analyze(conf: Conf, model: collection.mutable.Map[String, String]) = {
 
-    val enabledPorts = getPorts(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
+    val enabledPorts = cut(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
     Out.info("enabled ports", enabledPorts)
 
-    val disabledPorts = getPortsNot(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
+    val disabledPorts = cutNot(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
     Out.info("disabled ports", disabledPorts)
 
-    val trunkPorts = getPorts(model, s"${Syntax.SUBJECT_VLAN}=.*=${Syntax.ADJECTIVE_TAGGED}=(\\d+)", "yes").intersect(enabledPorts)
+    val trunkPorts = cut(model, s"${Syntax.SUBJECT_VLAN}=.*=${Syntax.ADJECTIVE_TAGGED}=(\\d+)", "yes").intersect(enabledPorts)
     Out.info("trunk ports", trunkPorts)
 
-    val accessPorts = getPorts(model, s"${Syntax.SUBJECT_VLAN}=.*=${Syntax.ADJECTIVE_TAGGED}=(\\d+)", "yes").intersect(enabledPorts)
+    val accessPorts = cut(model, s"${Syntax.SUBJECT_VLAN}=.*=${Syntax.ADJECTIVE_UNTAGGED}=(\\d+)", "yes").intersect(enabledPorts)
     Out.info("access ports", accessPorts)
 
     val mixedPorts = accessPorts.intersect(trunkPorts)
@@ -45,14 +45,8 @@ object Analyzer {
     // vlan names
     //
     if (conf.vlanNameRegex.regex.nonEmpty) {
-      val pattern = s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}"
-      val r = pattern.r
-      val invalidVlanNames = model
-        .keys
-        .filter(_ matches pattern)
-        .map(_ match { case r(g) => g })
+      val invalidVlanNames = cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}", ".*")
         .filter(! _.matches(conf.vlanNameRegex.regex))
-        .toList
       Out.warning("invalid vlan names", invalidVlanNames)
     }
 
@@ -62,6 +56,16 @@ object Analyzer {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
         Out.warning("snmp disabled")
+    }
+    if (conf.snmpReadRegex.regex.nonEmpty) {
+      val invalidCommunities = cut(model, s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=(.*)=${Syntax.VALUE_READ_ONLY}", Syntax.VALUE_ENABLE)
+        .filter(! _.matches(conf.snmpReadRegex.regex))
+      Out.warning("invalid snmp read communities", invalidCommunities)
+    }
+    if (conf.snmpWriteRegex.regex.nonEmpty) {
+      val invalidCommunities = cut(model, s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=(.*)=${Syntax.VALUE_READ_WRITE}", Syntax.VALUE_ENABLE)
+        .filter(! _.matches(conf.snmpWriteRegex.regex))
+      Out.warning("invalid snmp write communities", invalidCommunities)
     }
 
     // syslog
@@ -114,9 +118,9 @@ object Analyzer {
           case _ =>
             Out.warning("loopdetect log disabled")
         }
-        val trunkPortsWithLoopdetect = getPortsNot(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+        val trunkPortsWithLoopdetect = cutNot(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports with loopdetect", trunkPortsWithLoopdetect)
-        val accessPortsWithoutLoopdetect = getPortsNot(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+        val accessPortsWithoutLoopdetect = cutNot(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
         Out.warning("access ports without loopdetect", accessPortsWithoutLoopdetect)
       case _ =>
         Out.warning("loopdetect disabled")
@@ -126,9 +130,9 @@ object Analyzer {
     //
     model.get(s"feature=${Syntax.SUBJECT_LLDP}") match {
       case Some(Syntax.VALUE_ENABLE) =>
-        val trunkPortsWithoutLldp = getPortsNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+        val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports without lldp", trunkPortsWithoutLldp)
-        val accessPortsWithLldp = getPorts(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+        val accessPortsWithLldp = cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
         Out.warning("access ports with lldp", accessPortsWithLldp)
       case _ =>
         Out.warning("lldp disabled")
@@ -146,16 +150,16 @@ object Analyzer {
     //
     model.get(s"feature=${Syntax.SUBJECT_DHCP_RELAY}") match {
       case Some(Syntax.VALUE_ENABLE) =>
-        val trunkPortsWithDhcpRelay = getPorts(model, s"${Syntax.SUBJECT_DHCP_RELAY}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+        val trunkPortsWithDhcpRelay = cut(model, s"${Syntax.SUBJECT_DHCP_RELAY}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports with dhcp_relay", trunkPortsWithDhcpRelay)
       case _ =>
     }
 
     // filter dhcp_server
     //
-    val trunkPortsWithFilterDhcpServer = getPorts(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+    val trunkPortsWithFilterDhcpServer = cut(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
     Out.warning("trunk ports with filter dhcp_server", trunkPortsWithFilterDhcpServer)
-    val accessPortsWithoutFilterDhcpServer = getPortsNot(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+    val accessPortsWithoutFilterDhcpServer = cutNot(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
     Out.warning("access ports without filter dhcp_server", accessPortsWithoutFilterDhcpServer)
     model.get(s"${Syntax.SUBJECT_FILTER}=dhcp_server=trap_log") match {
       case Some(Syntax.VALUE_ENABLE) =>
@@ -186,28 +190,30 @@ object Analyzer {
       case (None, None) | (Some(Syntax.VALUE_DISABLE), None) | (None, Some(Syntax.VALUE_DISABLE)) =>
         Out.warning("port_security trap_log/port_security log disabled")
       case _ =>
-        val accessPortsWithoutPortSecurity = getPortsNot(model, s"${Syntax.SUBJECT_PORT_SECURITY}=(\\d+)=${Syntax.PARAMETER_ADMIN_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+        val accessPortsWithoutPortSecurity = cutNot(model, s"${Syntax.SUBJECT_PORT_SECURITY}=(\\d+)=${Syntax.PARAMETER_ADMIN_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
         Out.warning("access ports without port_security", accessPortsWithoutPortSecurity)
     }
 
   }
 
-  private def getPorts(model: collection.mutable.Map[String, String], pattern: String, filter: String) = {
-    val r = pattern.r
+  private def cut(model: collection.mutable.Map[String, String], keyPattern: String, valueFilter: String) = {
+    val r = keyPattern.r
     model
-      .filterKeys(_ matches pattern)
-      .filter(_._2 matches filter)
+      .filterKeys(_ matches keyPattern)
+      .filter(_._2 matches valueFilter)
       .keys
-      .map(_ match { case r(g) => g }).toList
+      .map(_ match { case r(g) => g })
+      .toList
   }
 
-  private def getPortsNot(model: collection.mutable.Map[String, String], pattern: String, filter: String) = {
-    val r = pattern.r
+  private def cutNot(model: collection.mutable.Map[String, String], keyPattern: String, valueFilter: String) = {
+    val r = keyPattern.r
     model
-      .filterKeys(_ matches pattern)
-      .filterNot(_._2 matches filter)
+      .filterKeys(_ matches keyPattern)
+      .filterNot(_._2 matches valueFilter)
       .keys
-      .map(_ match { case r(g) => g }).toList
+      .map(_ match { case r(g) => g })
+      .toList
   }
 
 }

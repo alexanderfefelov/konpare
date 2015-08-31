@@ -32,7 +32,9 @@ case class Conf (
   input: File = new File("."),
   syslogServers: Seq[InetAddress] = List.empty,
   sntpServers: Seq[InetAddress] = List.empty,
-  vlanNameRegex: Regex = "".r
+  vlanNameRegex: Regex = "".r,
+  snmpReadRegex: Regex = "".r,
+  snmpWriteRegex: Regex = "".r
 
 )
 
@@ -54,6 +56,10 @@ object Conf {
       c.copy(sntpServers = x) }
     opt[Regex]('n', "vlan-name-regex") valueName "<REGEX>" text "regex for VLAN names" action { (x, c) =>
       c.copy(vlanNameRegex = x) }
+    opt[Regex]('r', "snmp-read-regex") valueName "<REGEX>" text "regex for SNMP read community" action { (x, c) =>
+      c.copy(snmpReadRegex = x) }
+    opt[Regex]('w', "snmp-write-regex") valueName "<REGEX>" text "regex for SNMP write community" action { (x, c) =>
+      c.copy(snmpWriteRegex = x) }
     help("help") text "prints this usage text"
     checkConfig { conf => success }
   }

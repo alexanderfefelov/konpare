@@ -69,6 +69,7 @@ object Syntax {
   final val SUBJECT_VLAN_TRUNK = "vlan_trunk"
   final val SUBJECT_WEB = "web"
 
+  final val COMPLEMENT_COMMUNITY = "community"
   final val COMPLEMENT_CONTROL = "control"
   final val COMPLEMENT_DHCP_SERVER = "dhcp_server"
   final val COMPLEMENT_DHCP_SNOOP = "dhcp_snoop"
@@ -108,6 +109,8 @@ object Syntax {
   final val VALUE_DISABLE = "disable"
   final val VALUE_ENABLE = "enable"
   final val VALUE_PORT_BASED = "port-based"
+  final val VALUE_READ_ONLY = "read_only"
+  final val VALUE_READ_WRITE = "read_write"
   final val VALUE_USER_DEFINE = "user_define"
 
   final val VERB_ADD = "add"

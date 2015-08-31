@@ -17,17 +17,22 @@
  *
  */
 
-package com.github.alexanderfefelov.konpare.syntax.predicate
+package com.github.alexanderfefelov.konpare.syntax.subject.create
 
-import com.github.alexanderfefelov.konpare.syntax.{Syntax, Predicate}
-import com.github.alexanderfefelov.konpare.syntax.subject.create._
+import com.github.alexanderfefelov.konpare.syntax.{Syntax, Subject, Complement}
 
-object Create extends Predicate {
+object Snmp extends Subject {
 
-  override val subjects = Map(
-    Syntax.SUBJECT_SNMP -> Snmp,
-    Syntax.SUBJECT_SYSLOG -> Syslog,
-    Syntax.SUBJECT_VLAN -> Vlan
+  override val complements = Map(
+    Syntax.COMPLEMENT_COMMUNITY -> Community
   )
+
+  object Community extends Complement {
+
+    override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
+      // create snmp community public view CommunityView read_only
+      model += s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=${data.head}=${data(3)}" -> Syntax.VALUE_ENABLE
+    }
+  }
 
 }
