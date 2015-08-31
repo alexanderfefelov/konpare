@@ -25,7 +25,7 @@ object Web extends Subject {
 
   override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
     // enable web 80
-    model += s"feature=${Syntax.SUBJECT_WEB}" -> data.head
+    model += s"${Syntax.FEATURE}=${Syntax.SUBJECT_WEB}" -> data.head
   }
 
 }

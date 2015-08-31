@@ -23,6 +23,8 @@ import com.github.alexanderfefelov.konpare.syntax.predicate._
 
 object Syntax {
 
+  final val FEATURE = "feature"
+
   final val COMMENT_START = "#"
 
   final val PREDICATE_CONFIG = "config"

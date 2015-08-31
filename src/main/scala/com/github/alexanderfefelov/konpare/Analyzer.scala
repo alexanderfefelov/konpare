@@ -40,7 +40,7 @@ object Analyzer {
     Out.info("access ports", accessPorts)
 
     val vlanTags = model.filterKeys(_ matches s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}").values.toList
-    Out.info("vlan tags", vlanTags)
+    Out.info("VLAN tags", vlanTags)
 
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
@@ -48,26 +48,26 @@ object Analyzer {
     // bandwidth_control
     //
     val rxLimitedPorts = cutNot(model, s"${Syntax.SUBJECT_BANDWIDTH_CONTROL}=(\\d+)=${Syntax.PARAMETER_RX_RATE}", Syntax.VALUE_NO_LIMIT)
-    Out.warning("ports with manual rx rate", rxLimitedPorts)
+    Out.warning("ports with manual rx_rate", rxLimitedPorts)
     val txLimitedPorts = cutNot(model, s"${Syntax.SUBJECT_BANDWIDTH_CONTROL}=(\\d+)=${Syntax.PARAMETER_TX_RATE}", Syntax.VALUE_NO_LIMIT)
-    Out.warning("ports with manual tx rate", txLimitedPorts)
+    Out.warning("ports with manual tx_rate", txLimitedPorts)
 
     // flow_control
     //
     val portsWithFlowControl = cutNot(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_FLOW_CONTROL}", Syntax.VALUE_DISABLE)
-    Out.warning("ports with flow control", portsWithFlowControl)
+    Out.warning("ports with flow_control", portsWithFlowControl)
 
     // vlan names
     //
     if (conf.vlanNameRegex.regex.nonEmpty) {
       val invalidVlanNames = cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}", ".*")
         .filter(! _.matches(conf.vlanNameRegex.regex))
-      Out.warning("invalid vlan names", invalidVlanNames)
+      Out.warning("invalid VLAN names", invalidVlanNames)
     }
 
     // snmp
     //
-    model.get(s"feature=${Syntax.SUBJECT_SNMP}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_SNMP}") match {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
         Out.warning("snmp disabled")
@@ -75,17 +75,17 @@ object Analyzer {
     if (conf.snmpReadRegex.regex.nonEmpty) {
       val invalidCommunities = cut(model, s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=(.*)=${Syntax.VALUE_READ_ONLY}", Syntax.VALUE_ENABLE)
         .filter(! _.matches(conf.snmpReadRegex.regex))
-      Out.warning("invalid snmp read communities", invalidCommunities)
+      Out.warning("invalid SNMP read communities", invalidCommunities)
     }
     if (conf.snmpWriteRegex.regex.nonEmpty) {
       val invalidCommunities = cut(model, s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=(.*)=${Syntax.VALUE_READ_WRITE}", Syntax.VALUE_ENABLE)
         .filter(! _.matches(conf.snmpWriteRegex.regex))
-      Out.warning("invalid snmp write communities", invalidCommunities)
+      Out.warning("invalid SNMP write communities", invalidCommunities)
     }
 
     // syslog
     //
-    model.get(s"feature=${Syntax.SUBJECT_SYSLOG}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_SYSLOG}") match {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
         Out.warning("syslog disabled")
@@ -103,7 +103,7 @@ object Analyzer {
 
     // sntp
     //
-    model.get(s"feature=${Syntax.SUBJECT_SNTP}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_SNTP}") match {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
         Out.warning("sntp disabled")
@@ -121,7 +121,7 @@ object Analyzer {
 
     // loopdetect
     //
-    model.get(s"feature=${Syntax.SUBJECT_LOOPDETECT}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_LOOPDETECT}") match {
       case Some(Syntax.VALUE_ENABLE) =>
         model.get(s"${Syntax.SUBJECT_LOOPDETECT}=${Syntax.PARAMETER_MODE}") match {
           case Some(Syntax.VALUE_PORT_BASED) =>
@@ -143,7 +143,7 @@ object Analyzer {
 
     // lldp
     //
-    model.get(s"feature=${Syntax.SUBJECT_LLDP}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_LLDP}") match {
       case Some(Syntax.VALUE_ENABLE) =>
         val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports without lldp", trunkPortsWithoutLldp)
@@ -155,7 +155,7 @@ object Analyzer {
 
     // dhcp_local_relay
     //
-    model.get(s"feature=${Syntax.SUBJECT_DHCP_LOCAL_RELAY}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_DHCP_LOCAL_RELAY}") match {
       case Some(Syntax.VALUE_ENABLE) =>
         Out.warning("dhcp_local_relay enabled")
       case _ =>
@@ -163,7 +163,7 @@ object Analyzer {
 
     // dhcp_relay
     //
-    model.get(s"feature=${Syntax.SUBJECT_DHCP_RELAY}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_DHCP_RELAY}") match {
       case Some(Syntax.VALUE_ENABLE) =>
         val trunkPortsWithDhcpRelay = cut(model, s"${Syntax.SUBJECT_DHCP_RELAY}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports with dhcp_relay", trunkPortsWithDhcpRelay)
@@ -185,7 +185,7 @@ object Analyzer {
 
     // password_encryption
     //
-    model.get(s"feature=${Syntax.SUBJECT_PASSWORD_ENCRYPTION}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_PASSWORD_ENCRYPTION}") match {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
         Out.warning("password_encryption disabled")
@@ -193,7 +193,7 @@ object Analyzer {
 
     // address_binding
     //
-    model.get(s"feature=${Syntax.SUBJECT_ADDRESS_BINDING}=${Syntax.COMPLEMENT_TRAP_LOG}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_ADDRESS_BINDING}=${Syntax.COMPLEMENT_TRAP_LOG}") match {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
         Out.warning("address_binding trap_log disabled")
@@ -201,7 +201,7 @@ object Analyzer {
 
     // port_security
     //
-    (model.get(s"feature=${Syntax.SUBJECT_PORT_SECURITY}=${Syntax.COMPLEMENT_TRAP_LOG}"),
+    (model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_PORT_SECURITY}=${Syntax.COMPLEMENT_TRAP_LOG}"),
       model.get(s"${Syntax.SUBJECT_PORT_SECURITY}=${Syntax.COMPLEMENT_LOG}=${Syntax.PARAMETER_STATE}")) match {
       case (None, None) | (Some(Syntax.VALUE_DISABLE), None) | (None, Some(Syntax.VALUE_DISABLE)) =>
         Out.warning("port_security trap_log/port_security log disabled")

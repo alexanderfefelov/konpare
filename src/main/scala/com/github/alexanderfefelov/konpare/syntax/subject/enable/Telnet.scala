@@ -25,7 +25,7 @@ object Telnet extends Subject {
 
   override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
     // enable telnet 23
-    model += s"feature=${Syntax.SUBJECT_TELNET}" -> data.head
+    model += s"${Syntax.FEATURE}=${Syntax.SUBJECT_TELNET}" -> data.head
   }
 
 }

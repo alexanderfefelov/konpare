@@ -25,7 +25,7 @@ class GenericDisable(val predicate: String) extends Subject {
 
   override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
     // disable loopdetect
-    model += s"feature=$predicate" -> Syntax.VALUE_DISABLE
+    model += s"${Syntax.FEATURE}=$predicate" -> Syntax.VALUE_DISABLE
   }
 
 }

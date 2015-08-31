@@ -25,7 +25,7 @@ class GenericEnable(val predicate: String) extends Subject {
 
   override def process(data: List[String], model: collection.mutable.Map[String, String]) = {
     // enable loopdetect
-    model += s"feature=$predicate" -> Syntax.VALUE_ENABLE
+    model += s"${Syntax.FEATURE}=$predicate" -> Syntax.VALUE_ENABLE
   }
 
 }
