@@ -2,6 +2,10 @@ name := """konpare"""
 
 scalaVersion := "2.11.7"
 
+import com.atlassian.labs.gitstamp.GitStampPlugin._
+
+Seq(gitStampSettings: _*)
+
 lazy val root = (project in file("."))
   .enablePlugins(BuildInfoPlugin)
   .settings(
