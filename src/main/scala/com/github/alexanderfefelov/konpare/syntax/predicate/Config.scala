@@ -26,6 +26,7 @@ object Config extends Predicate {
 
   override val subjects = Map(
     Syntax.SUBJECT_ARP_AGING -> ArpAging,
+    Syntax.SUBJECT_BANDWIDTH_CONTROL -> BandwidthControl,
     Syntax.SUBJECT_DHCP_LOCAL_RELAY -> DhcpLocalRelay,
     Syntax.SUBJECT_DHCP_RELAY -> DhcpRelay,
     Syntax.SUBJECT_DOS_PREVENTION -> DosPrevention,

@@ -45,6 +45,12 @@ object Analyzer {
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
 
+    // bandwidth_control
+    val rxLimitedPorts = cutNot(model, s"${Syntax.SUBJECT_BANDWIDTH_CONTROL}=(\\d+)=${Syntax.PARAMETER_RX_RATE}", Syntax.VALUE_NO_LIMIT)
+    Out.warning("ports with manual rx rate", rxLimitedPorts)
+    val txLimitedPorts = cutNot(model, s"${Syntax.SUBJECT_BANDWIDTH_CONTROL}=(\\d+)=${Syntax.PARAMETER_TX_RATE}", Syntax.VALUE_NO_LIMIT)
+    Out.warning("ports with manual tx rate", txLimitedPorts)
+
     // vlan names
     //
     if (conf.vlanNameRegex.regex.nonEmpty) {
