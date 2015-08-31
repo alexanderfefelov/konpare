@@ -28,6 +28,7 @@ object Enable extends Predicate {
     Syntax.SUBJECT_ADDRESS_BINDING -> new GenericEnable2(Syntax.SUBJECT_ADDRESS_BINDING),
     Syntax.SUBJECT_CLIPAGING -> new GenericEnable(Syntax.SUBJECT_CLIPAGING),
     Syntax.SUBJECT_DHCP_RELAY -> new GenericEnable(Syntax.SUBJECT_DHCP_RELAY),
+    Syntax.SUBJECT_JUMBO_FRAME -> new GenericEnable(Syntax.SUBJECT_JUMBO_FRAME),
     Syntax.SUBJECT_LLDP -> new GenericEnable(Syntax.SUBJECT_LLDP),
     Syntax.SUBJECT_LOOPDETECT -> new GenericEnable(Syntax.SUBJECT_LOOPDETECT),
     Syntax.SUBJECT_MIRROR -> new GenericEnable(Syntax.SUBJECT_MIRROR),

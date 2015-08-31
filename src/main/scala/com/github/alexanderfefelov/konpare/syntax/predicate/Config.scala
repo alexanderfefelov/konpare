@@ -32,6 +32,7 @@ object Config extends Predicate {
     Syntax.SUBJECT_DOS_PREVENTION -> DosPrevention,
     Syntax.SUBJECT_FDB -> Fdb,
     Syntax.SUBJECT_FILTER -> Filter,
+    Syntax.SUBJECT_JUMBO_FRAME -> JumboFrame,
     Syntax.SUBJECT_LLDP -> Lldp,
     Syntax.SUBJECT_LOOPDETECT -> LoopDetect,
     Syntax.SUBJECT_PORT_SECURITY -> PortSecurity,
