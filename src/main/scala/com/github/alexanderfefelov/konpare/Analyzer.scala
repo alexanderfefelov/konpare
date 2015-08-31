@@ -39,6 +39,9 @@ object Analyzer {
     val accessPorts = cut(model, s"${Syntax.SUBJECT_VLAN}=.*=${Syntax.ADJECTIVE_UNTAGGED}=(\\d+)", "yes").intersect(enabledPorts)
     Out.info("access ports", accessPorts)
 
+    val vlanTags = model.filterKeys(_ matches s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}").values.toList
+    Out.info("vlan tags", vlanTags)
+
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
 
