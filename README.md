@@ -17,7 +17,7 @@ __konpare__ анализирует конфигурационные файлы �
 * выключен `lldp`
 * выключен `loopdetect`
 * выключен `loopdetect log`
-* выключен `password_encryption`
+* выключен `password encryption`
 * выключен `port_security trap_log`/`port_security log`
 * выключен `snmp`
 * выключен `sntp`

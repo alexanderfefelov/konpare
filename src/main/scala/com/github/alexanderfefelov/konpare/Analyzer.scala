@@ -195,12 +195,12 @@ object Analyzer {
       case _ =>
     }
 
-    // password_encryption
+    // password encryption
     //
-    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_PASSWORD_ENCRYPTION}") match {
+    model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_PASSWORD}=${Syntax.COMPLEMENT_ENCRYPTION}") match {
       case Some(Syntax.VALUE_ENABLE) =>
       case _ =>
-        Out.warning("password_encryption disabled")
+        Out.warning("password encryption disabled")
     }
 
     // address_binding
