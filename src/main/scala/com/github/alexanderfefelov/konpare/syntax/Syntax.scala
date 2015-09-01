@@ -24,6 +24,8 @@ import com.github.alexanderfefelov.konpare.syntax.predicate._
 object Syntax {
 
   final val FEATURE = "feature"
+  final val FW = "f/w"
+  final val MODEL = "model"
 
   final val COMMENT_START = "#"
 
@@ -128,6 +130,8 @@ object Syntax {
   final val ADJECTIVE_TAGGED = "tagged"
   final val ADJECTIVE_UNTAGGED = "untagged"
 
+  final val RE_FW = ".*Firmware: Build ([0-9]+.[0-9]+.[0-9A-Z]+)".r
+  final val RE_MODEL = ".*(D[EG]S-[0-9]{4}[-\\/0-9A-Z]*+)".r
   final val RE_RANGE = """(?:\d+(?:-\d+)?)(?:,(?:\d+(-\d+)?))*""".r
 
   val predicates = Map(

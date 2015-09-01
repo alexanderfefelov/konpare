@@ -27,6 +27,9 @@ object Analyzer {
 
   def analyze(conf: Conf, model: collection.mutable.Map[String, String]) = {
 
+    Out.info("model: " + model.getOrElse(Syntax.MODEL, "Unknown"))
+    Out.info("f/w: " + model.getOrElse(Syntax.FW, "Unknown"))
+
     val enabledPorts = cut(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
     Out.info("enabled ports", enabledPorts)
 

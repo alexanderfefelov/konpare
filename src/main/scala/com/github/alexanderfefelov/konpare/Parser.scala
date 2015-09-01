@@ -40,11 +40,19 @@ object Parser {
   private def processLine(line: String, model: collection.mutable.Map[String, String]) = {
     line.trim match {
       case l if l.startsWith(Syntax.COMMENT_START) =>
-        // Comment
+        processComment(l, model)
       case l if l.nonEmpty =>
         processNonEmptyLine(l, model)
       case _ =>
         // Empty line
+    }
+  }
+
+  private def processComment(line: String, model: collection.mutable.Map[String, String]) = {
+    line match {
+      case Syntax.RE_MODEL(g) => if (!model.contains(Syntax.MODEL)) model += Syntax.MODEL -> g
+      case Syntax.RE_FW(g) => model += Syntax.FW -> g
+      case _ =>
     }
   }
 
