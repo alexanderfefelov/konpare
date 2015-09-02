@@ -27,8 +27,8 @@ object Analyzer {
 
   def analyze(conf: Conf, model: collection.mutable.Map[String, String]) = {
 
-    Out.info("model: " + model.getOrElse(Syntax.MODEL, "Unknown"))
-    Out.info("f/w: " + model.getOrElse(Syntax.FW, "Unknown"))
+    Out.info("model: " + model.getOrElse(Syntax.MODEL, "unknown"))
+    Out.info("f/w: " + model.getOrElse(Syntax.FW, "unknown"))
 
     val enabledPorts = cut(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
     Out.info("enabled ports", enabledPorts)
@@ -43,19 +43,19 @@ object Analyzer {
     Out.info("access ports", accessPorts)
 
     val vlanTags = model.filterKeys(_ matches s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}").values.toList
-    Out.info("VLAN tags", vlanTags)
+    Out.info("vlan tags", vlanTags)
 
     val vlanNames = cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}", ".*")
-    Out.info("VLAN names", vlanNames)
+    Out.info("vlan names", vlanNames)
 
     val vlansWithoutPorts = vlanNames.diff(cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_TAGGED}=\\d+", "yes")
       .union(cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_UNTAGGED}=\\d+", "yes"))
       .distinct)
-    Out.warning("VLANs without ports", vlansWithoutPorts)
+    Out.warning("vlans without ports", vlansWithoutPorts)
 
     val vlanPorts =  trunkPorts.union(accessPorts)
     val portsWithoutVlan = enabledPorts.diff(vlanPorts)
-    Out.warning("ports without VLAN", portsWithoutVlan)
+    Out.warning("ports without vlan", portsWithoutVlan)
 
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
@@ -77,7 +77,7 @@ object Analyzer {
     if (conf.vlanNameRegex.regex.nonEmpty) {
       val invalidVlanNames = vlanNames
         .filter(! _.matches(conf.vlanNameRegex.regex))
-      Out.warning("invalid VLAN names", invalidVlanNames)
+      Out.warning("invalid vlan names", invalidVlanNames)
     }
 
     // snmp
@@ -90,12 +90,12 @@ object Analyzer {
     if (conf.snmpReadRegex.regex.nonEmpty) {
       val invalidCommunities = cut(model, s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=(.*)=${Syntax.VALUE_READ_ONLY}", Syntax.VALUE_ENABLE)
         .filter(! _.matches(conf.snmpReadRegex.regex))
-      Out.warning("invalid SNMP read communities", invalidCommunities)
+      Out.warning("invalid snmp read communities", invalidCommunities)
     }
     if (conf.snmpWriteRegex.regex.nonEmpty) {
       val invalidCommunities = cut(model, s"${Syntax.SUBJECT_SNMP}=${Syntax.COMPLEMENT_COMMUNITY}=(.*)=${Syntax.VALUE_READ_WRITE}", Syntax.VALUE_ENABLE)
         .filter(! _.matches(conf.snmpWriteRegex.regex))
-      Out.warning("invalid SNMP write communities", invalidCommunities)
+      Out.warning("invalid snmp write communities", invalidCommunities)
     }
 
     // syslog
@@ -128,10 +128,10 @@ object Analyzer {
       val servers = model.filterKeys(_ matches pattern).values.toList.map(InetAddress.getByName)
       val validServers = servers.intersect(conf.sntpServers)
       if (validServers.isEmpty) {
-        Out.warning("valid SNTP servers not found")
+        Out.warning("valid sntp servers not found")
       }
       val invalidServers = servers.filterNot(conf.sntpServers contains _).map(_.getHostAddress)
-      Out.warning("invalid SNTP servers", invalidServers)
+      Out.warning("invalid sntp servers", invalidServers)
     }
 
     // loopdetect
