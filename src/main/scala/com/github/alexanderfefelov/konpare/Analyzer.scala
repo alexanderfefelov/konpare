@@ -184,6 +184,16 @@ object Analyzer {
         Out.warning("trunk ports with dhcp_relay", trunkPortsWithDhcpRelay)
       case _ =>
     }
+    if (conf.dhcpRelays.nonEmpty) {
+      val pattern = s"${Syntax.SUBJECT_DHCP_RELAY}=(.*)=${Syntax.NOUN_IPIF}"
+      val relays = cut(model, pattern, ".*").map(InetAddress.getByName)
+      val validRelays = relays.intersect(conf.dhcpRelays)
+      if (validRelays.isEmpty) {
+        Out.warning("valid dhcp relays not found")
+      }
+      val invalidRelays = relays.filterNot(conf.dhcpRelays contains _).map(_.getHostAddress)
+      Out.warning("invalid dhcp relays", invalidRelays)
+    }
 
     // filter dhcp_server
     //

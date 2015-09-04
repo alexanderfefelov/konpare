@@ -43,7 +43,7 @@ object DhcpRelay extends Subject {
         model += s"${Syntax.SUBJECT_DHCP_RELAY}=${data.head}=${data(1)}" -> data(2)
       case Syntax.VERB_ADD if data(1) == Syntax.NOUN_IPIF =>
         // config dhcp_relay add ipif System 10.10.10.1
-        model += s"${Syntax.SUBJECT_DHCP_RELAY}=${data(3)}" -> data(2)
+        model += s"${Syntax.SUBJECT_DHCP_RELAY}=${data(3)}=${Syntax.NOUN_IPIF}" -> data(2)
       case _ =>
     }
   }

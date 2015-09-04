@@ -32,6 +32,7 @@ case class Conf (
   input: File = new File("."),
   syslogServers: Seq[InetAddress] = List.empty,
   sntpServers: Seq[InetAddress] = List.empty,
+  dhcpRelays: Seq[InetAddress] = List.empty,
   vlanNameRegex: Regex = "".r,
   snmpReadRegex: Regex = "".r,
   snmpWriteRegex: Regex = "".r
@@ -54,6 +55,8 @@ object Conf {
       c.copy(syslogServers = x) }
     opt[Seq[InetAddress]]('t', "sntp-servers") valueName "<IP-ADDRESSES>" text "comma-delimited IP addresses of SNTP servers" action { (x, c) =>
       c.copy(sntpServers = x) }
+    opt[Seq[InetAddress]]('e', "dhcp-relays") valueName "<IP-ADDRESSES>" text "comma-delimited IP addresses of DHCP relays" action { (x, c) =>
+      c.copy(dhcpRelays = x) }
     opt[Regex]('n', "vlan-name-regex") valueName "<REGEX>" text "regex for VLAN names" action { (x, c) =>
       c.copy(vlanNameRegex = x) }
     opt[Regex]('r', "snmp-read-regex") valueName "<REGEX>" text "regex for SNMP read community" action { (x, c) =>
