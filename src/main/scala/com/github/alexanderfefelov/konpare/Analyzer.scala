@@ -148,7 +148,7 @@ object Analyzer {
           case _ =>
             Out.warning("loopdetect log disabled")
         }
-        val trunkPortsWithLoopdetect = cutNot(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+        val trunkPortsWithLoopdetect = cut(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports with loopdetect", trunkPortsWithLoopdetect)
         val accessPortsWithoutLoopdetect = cutNot(model, s"${Syntax.SUBJECT_LOOPDETECT}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
         Out.warning("access ports without loopdetect", accessPortsWithoutLoopdetect)
