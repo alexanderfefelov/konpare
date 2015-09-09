@@ -21,6 +21,8 @@ package com.github.alexanderfefelov.konpare
 
 import java.io.File
 import java.nio.charset.UnmappableCharacterException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object Konpare extends App {
 
@@ -46,6 +48,10 @@ object Konpare extends App {
     files foreach { file =>
       println(s"---===[ $file ]===---")
       try {
+        val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val timestamp = format.format(new Date(file.lastModified()))
+        Out.info(timestamp)
+
         val model = collection.mutable.Map.empty[String, String]
         Parser.parse(file.getCanonicalPath, model)
         Analyzer.analyze(conf, model)
