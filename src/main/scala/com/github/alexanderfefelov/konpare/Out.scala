@@ -37,6 +37,10 @@ object Out {
     print("WARNING", message, list)
   }
 
+  def error(message: String, list: List[String]) {
+    print("ERROR", message, list)
+  }
+
   private def print(prefix: String, message: String) {
     println(s"$prefix $message")
   }

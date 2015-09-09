@@ -60,6 +60,12 @@ object Analyzer {
     val mixedPorts = accessPorts.intersect(trunkPorts)
     Out.warning("mixed ports", mixedPorts)
 
+    val accessPortsWithFewVlans = accessPorts
+      .map(port => port -> cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_UNTAGGED}=$port", "yes"))
+      .filter(_._2.size > 1)
+      .map(_._1)
+    Out.error("access ports within a few vlans", accessPortsWithFewVlans)
+
     // bandwidth_control
     //
     val rxLimitedPorts = cutNot(model, s"${Syntax.SUBJECT_BANDWIDTH_CONTROL}=(\\d+)=${Syntax.PARAMETER_RX_RATE}", Syntax.VALUE_NO_LIMIT)
