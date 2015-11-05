@@ -205,7 +205,7 @@ object Analyzer {
     //
     val trunkPortsWithFilterDhcpServer = cut(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
     Out.warning("trunk ports with filter dhcp_server", trunkPortsWithFilterDhcpServer)
-    val accessPortsWithoutFilterDhcpServer = cutNot(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+    val accessPortsWithoutFilterDhcpServer = accessPorts.diff(cut(model, s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE))
     Out.warning("access ports without filter dhcp_server", accessPortsWithoutFilterDhcpServer)
     (model.get(s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=${Syntax.COMPLEMENT_TRAP_LOG}"),
       model.get(s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=${Syntax.COMPLEMENT_LOG}")) match {
