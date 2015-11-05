@@ -27,8 +27,6 @@ object Syntax {
   final val FW = "f/w"
   final val MODEL = "model"
 
-  final val COMMENT_START = "#"
-
   final val PREDICATE_CONFIG = "config"
   final val PREDICATE_CREATE = "create"
   final val PREDICATE_DEBUG = "debug"
@@ -130,6 +128,7 @@ object Syntax {
   final val ADJECTIVE_TAGGED = "tagged"
   final val ADJECTIVE_UNTAGGED = "untagged"
 
+  final val RE_COMMENT = "^([#!].*)".r
   final val RE_FW = ".*Firmware: Build ([0-9]+.[0-9]+.[0-9A-Z]+)".r
   final val RE_MODEL = ".*(D[EG]S-[0-9]{4}[-\\/0-9A-Z]*+)".r
   final val RE_RANGE = """(?:\d+(?:-\d+)?)(?:,(?:\d+(-\d+)?))*""".r
@@ -149,7 +148,7 @@ object Syntax {
   private def expandRangeElement(element: String) = {
     val range = """(\d+)-(\d+)""".r
     val number = """(\d+)""".r
-    element.replaceAll("""\d:""", "") match { // Hack for stack. Uh
+    element.replaceAll("""\d:""", "").replaceAll("\\(", "").replaceAll("\\)", "") match { // Hack for stack. Uh
       case range(first, last) => first.toInt to last.toInt toList
       case number(n) => List(n.toInt)
     }

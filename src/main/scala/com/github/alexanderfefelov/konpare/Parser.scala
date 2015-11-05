@@ -39,7 +39,7 @@ object Parser {
 
   private def processLine(line: String, model: collection.mutable.Map[String, String]) = {
     line.trim match {
-      case l if l.startsWith(Syntax.COMMENT_START) =>
+      case Syntax.RE_COMMENT(l) =>
         processComment(l, model)
       case l if l.nonEmpty =>
         processNonEmptyLine(l, model)
