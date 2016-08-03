@@ -96,6 +96,7 @@ object Syntax {
   final val PARAMETER_MESSAGE_TX_HOLD_MULTIPLIER = "message_tx_hold_multiplier"
   final val PARAMETER_MESSAGE_TX_INTERVAL = "message_tx_interval"
   final val PARAMETER_MODE = "mode"
+  final val PARAMETER_NOTIFICATION = "notification"
   final val PARAMETER_NOTIFICATION_INTERVAL = "notification_interval"
   final val PARAMETER_OPTION_82 = "option_82"
   final val PARAMETER_PORTS = "ports"

@@ -166,9 +166,9 @@ object Analyzer {
     //
     model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_LLDP}") match {
       case Some(Syntax.VALUE_ENABLE) =>
-        val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+        val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_NOTIFICATION}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
         Out.warning("trunk ports without lldp", trunkPortsWithoutLldp)
-        val accessPortsWithLldp = cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+        val accessPortsWithLldp = cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_NOTIFICATION}", Syntax.VALUE_ENABLE).intersect(accessPorts)
         Out.warning("access ports with lldp", accessPortsWithLldp)
       case _ =>
         Out.warning("lldp disabled")
