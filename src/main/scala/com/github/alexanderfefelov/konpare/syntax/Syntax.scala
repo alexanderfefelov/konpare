@@ -133,7 +133,7 @@ object Syntax {
 
   final val RE_COMMENT = "^([#!].*)".r
   final val RE_FW = ".*Firmware: Build ([0-9]+.[0-9]+.[0-9A-Z]+)".r
-  final val RE_MODEL = ".*(D[EG]S-[0-9]{4}[-\\/0-9A-Z]*+)".r
+  final val RE_MODEL = ".*(D[EG]S-[0-9]{4}[-\\/0-9A-Z]*+).*".r
   final val RE_RANGE = """(?:\d+(?:-\d+)?)(?:,(?:\d+(-\d+)?))*""".r
 
   val predicates = Map(
