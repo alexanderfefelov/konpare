@@ -242,8 +242,17 @@ object Analyzer {
     }
 
     // stp
+    //
     val accessPortsWithFbpdu = cut(model, s"${Syntax.SUBJECT_STP}=(\\d+)=${Syntax.PARAMETER_FBPDU}", Syntax.VALUE_ENABLE).intersect(accessPorts)
     Out.warning("access ports with fbpdu", accessPortsWithFbpdu)
+
+    // traffic control
+    //
+    model.get(s"${Syntax.SUBJECT_TRAFFIC}=${Syntax.COMPLEMENT_CONTROL}=${Syntax.COMPLEMENT_LOG}=${Syntax.PARAMETER_STATE}") match {
+      case Some(Syntax.VALUE_ENABLE) =>
+      case _ =>
+        Out.warning("traffic control log disabled")
+    }
 
   }
 
