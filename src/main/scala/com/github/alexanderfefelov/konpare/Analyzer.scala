@@ -253,6 +253,8 @@ object Analyzer {
       case _ =>
         Out.warning("traffic control log disabled")
     }
+    val portsWithTrafficControlActionShutdown = cut(model, s"${Syntax.SUBJECT_TRAFFIC}=${Syntax.COMPLEMENT_CONTROL}=(\\d+)=${Syntax.PARAMETER_ACTION}", Syntax.VALUE_SHUTDOWN).intersect(accessPorts)
+    Out.warning("ports with traffic control action shutdown", portsWithTrafficControlActionShutdown)
 
   }
 

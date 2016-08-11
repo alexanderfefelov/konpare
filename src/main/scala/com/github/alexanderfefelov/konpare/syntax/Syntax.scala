@@ -89,6 +89,7 @@ object Syntax {
   final val COMPLEMENT_TRAP_LOG = "trap_log"
   final val COMPLEMENT_VLAN_LEARNING = "vlan_learning"
 
+  final val PARAMETER_ACTION = "action"
   final val PARAMETER_ADMIN_STATE = "admin_state"
   final val PARAMETER_ADMIN_STATUS = "admin_status"
   final val PARAMETER_DOS_TYPE = "dos_type"
@@ -120,6 +121,7 @@ object Syntax {
   final val VALUE_PORT_BASED = "port-based"
   final val VALUE_READ_ONLY = "read_only"
   final val VALUE_READ_WRITE = "read_write"
+  final val VALUE_SHUTDOWN = "shutdown"
   final val VALUE_USER_DEFINE = "user_define"
 
   final val VERB_ADD = "add"
