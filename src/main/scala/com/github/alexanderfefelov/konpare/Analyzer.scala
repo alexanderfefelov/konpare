@@ -241,6 +241,10 @@ object Analyzer {
         Out.warning("access ports without port_security", accessPortsWithoutPortSecurity)
     }
 
+    // stp
+    val accessPortsWithFbpdu = cut(model, s"${Syntax.SUBJECT_STP}=(\\d+)=${Syntax.PARAMETER_FBPDU}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+    Out.warning("access ports with fbpdu", accessPortsWithFbpdu)
+
   }
 
   private def cut(model: collection.mutable.Map[String, String], keyPattern: String, valueFilter: String) = {
