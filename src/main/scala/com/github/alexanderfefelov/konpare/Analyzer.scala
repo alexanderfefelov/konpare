@@ -25,7 +25,7 @@ import com.github.alexanderfefelov.konpare.syntax.Syntax
 
 object Analyzer {
 
-  def analyze(conf: Conf, model: collection.mutable.Map[String, String]) = {
+  def analyze(model: collection.mutable.Map[String, String])(implicit conf: Conf) = {
 
     Out.info("model: " + model.getOrElse(Syntax.MODEL, "unknown"))
     Out.info("f/w: " + model.getOrElse(Syntax.FW, "unknown"))

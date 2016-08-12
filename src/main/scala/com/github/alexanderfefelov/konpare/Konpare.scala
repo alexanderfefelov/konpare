@@ -27,12 +27,13 @@ import java.util.Date
 object Konpare extends App {
 
   Conf.confParser.parse(args, Conf()) match {
-    case Some(conf) =>
-      processFile(conf)
+    case Some(c) =>
+      implicit val conf = c
+      processFile
     case None =>
   }
 
-  private def processFile(conf: Conf) = {
+  private def processFile(implicit conf: Conf) = {
     val f = conf.input
     var files = Seq[File]()
     (f.exists, f.isDirectory) match {
@@ -54,7 +55,7 @@ object Konpare extends App {
 
         val model = collection.mutable.Map.empty[String, String]
         Parser.parse(file.getCanonicalPath, model)
-        Analyzer.analyze(conf, model)
+        Analyzer.analyze(model)
       } catch {
         case e: UnmappableCharacterException =>
           println("Binary file")

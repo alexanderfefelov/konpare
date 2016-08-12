@@ -25,7 +25,7 @@ object Out {
     print("INFO", message)
   }
 
-  def info(message: String, list: List[String]) {
+  def info(message: String, list: List[String])(implicit conf: Conf) {
     print("INFO", message, list)
   }
 
@@ -33,11 +33,11 @@ object Out {
     print("WARNING", message)
   }
 
-  def warning(message: String, list: List[String]) {
+  def warning(message: String, list: List[String])(implicit conf: Conf) {
     print("WARNING", message, list)
   }
 
-  def error(message: String, list: List[String]) {
+  def error(message: String, list: List[String])(implicit conf: Conf) {
     print("ERROR", message, list)
   }
 
@@ -45,9 +45,9 @@ object Out {
     println(s"$prefix $message")
   }
 
-  private def print(prefix: String, message: String, list: List[String]) {
+  private def print(prefix: String, message: String, list: List[String])(implicit conf: Conf) {
     if (list.nonEmpty) {
-      println(s"$prefix $message: ${sortLexicographically(list).mkString(" ")}")
+      println(s"$prefix $message: ${sortLexicographically(list).mkString(conf.outputListSeparator)}")
     }
   }
 

@@ -35,7 +35,8 @@ case class Conf (
   dhcpRelays: Seq[InetAddress] = List.empty,
   vlanNameRegex: Regex = "".r,
   snmpReadRegex: Regex = "".r,
-  snmpWriteRegex: Regex = "".r
+  snmpWriteRegex: Regex = "".r,
+  outputListSeparator: String = " "
 
 )
 
@@ -63,6 +64,8 @@ object Conf {
       c.copy(snmpReadRegex = x) }
     opt[Regex]('w', "snmp-write-regex") valueName "<REGEX>" text "regex for SNMP write community" action { (x, c) =>
       c.copy(snmpWriteRegex = x) }
+    opt[String]("output-list-separator") valueName "<STRING>" text "output list separator, one space by default" action { (x, c) =>
+      c.copy(outputListSeparator = x) }
     help("help") text "prints this usage text"
     checkConfig { conf => success }
   }
