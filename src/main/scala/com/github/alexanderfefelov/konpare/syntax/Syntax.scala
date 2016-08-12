@@ -122,6 +122,7 @@ object Syntax {
   final val VALUE_READ_ONLY = "read_only"
   final val VALUE_READ_WRITE = "read_write"
   final val VALUE_SHUTDOWN = "shutdown"
+  final val VALUE_TX_AND_RX = "tx_and_rx"
   final val VALUE_USER_DEFINE = "user_define"
 
   final val VERB_ADD = "add"

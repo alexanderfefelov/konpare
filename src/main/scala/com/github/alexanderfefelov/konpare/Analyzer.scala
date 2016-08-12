@@ -166,9 +166,9 @@ object Analyzer {
     //
     model.get(s"${Syntax.FEATURE}=${Syntax.SUBJECT_LLDP}") match {
       case Some(Syntax.VALUE_ENABLE) =>
-        val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_NOTIFICATION}", Syntax.VALUE_ENABLE).intersect(trunkPorts)
+        val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_ADMIN_STATUS}", Syntax.VALUE_TX_AND_RX).intersect(trunkPorts)
         Out.warning("trunk ports without lldp", trunkPortsWithoutLldp)
-        val accessPortsWithLldp = cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_NOTIFICATION}", Syntax.VALUE_ENABLE).intersect(accessPorts)
+        val accessPortsWithLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_ADMIN_STATUS}", Syntax.VALUE_DISABLE).intersect(accessPorts)
         Out.warning("access ports with lldp", accessPortsWithLldp)
       case _ =>
         Out.warning("lldp disabled")
@@ -255,7 +255,6 @@ object Analyzer {
     }
     val portsWithTrafficControlActionShutdown = cut(model, s"${Syntax.SUBJECT_TRAFFIC}=${Syntax.COMPLEMENT_CONTROL}=(\\d+)=${Syntax.PARAMETER_ACTION}", Syntax.VALUE_SHUTDOWN).intersect(enabledPorts)
     Out.warning("ports with traffic control action shutdown", portsWithTrafficControlActionShutdown)
-
   }
 
   private def cut(model: collection.mutable.Map[String, String], keyPattern: String, valueFilter: String) = {
