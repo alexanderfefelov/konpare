@@ -169,6 +169,8 @@ object Analyzer {
       case Some(Syntax.VALUE_ENABLE) =>
         val trunkPortsWithoutLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_ADMIN_STATUS}", Syntax.VALUE_TX_AND_RX).intersect(trunkPorts)
         Out.warning("trunk ports without lldp", trunkPortsWithoutLldp)
+        val lldpWithoutBasicTlvs = trunkPorts.diff(trunkPortsWithoutLldp).diff(cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_BASIC_TLVS}=${Syntax.VALUE_ENABLE}", Syntax.VALUE_ENABLE))
+        Out.warning("lldp without basic_tlvs", lldpWithoutBasicTlvs)
         val accessPortsWithLldp = cutNot(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_ADMIN_STATUS}", Syntax.VALUE_DISABLE).intersect(accessPorts)
         Out.warning("access ports with lldp", accessPortsWithLldp)
       case _ =>

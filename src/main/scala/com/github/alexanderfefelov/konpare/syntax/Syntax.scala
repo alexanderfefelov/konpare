@@ -92,6 +92,7 @@ object Syntax {
   final val PARAMETER_ACTION = "action"
   final val PARAMETER_ADMIN_STATE = "admin_state"
   final val PARAMETER_ADMIN_STATUS = "admin_status"
+  final val PARAMETER_BASIC_TLVS = "basic_tlvs"
   final val PARAMETER_DOS_TYPE = "dos_type"
   final val PARAMETER_FBPDU = "fbpdu"
   final val PARAMETER_FLOW_CONTROL = "flow_control"

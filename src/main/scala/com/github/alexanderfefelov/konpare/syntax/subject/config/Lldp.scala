@@ -37,6 +37,13 @@ object Lldp extends Subject {
             Syntax.expandRange(data(1)).foreach((i: Int) =>
               model += s"${Syntax.SUBJECT_LLDP}=$i=${data(2)}" -> data(3)
             )
+          case _ if data(2) == Syntax.PARAMETER_BASIC_TLVS =>
+            // config lldp ports 25 basic_tlvs port_description system_name system_description system_capabilities enable
+            Syntax.expandRange(data(1)).foreach((i: Int) =>
+              data.drop(3).foreach { param =>
+                model += s"${Syntax.SUBJECT_LLDP}=$i=${data(2)}=$param" -> param
+              }
+            )
           case _ =>
             // config lldp ports 26 basic_tlvs port_description system_name system_description system_capabilities enable
         }
