@@ -25,22 +25,18 @@ object Vlan extends Subject {
 
   override def process2(data: List[String], model: collection.mutable.Map[String, String]) = {
     val vlan = data.head
-    vlan match {
-      case Syntax.VALUE_DEFAULT =>
+    (data(1), data(2)) match {
+      case (Syntax.VERB_ADD, Syntax.ADJECTIVE_TAGGED) =>
+        // config vlan v5 add tagged 24-26,28
+        Syntax.expandRange(data(3)).foreach((i: Int) =>
+          model += s"${Syntax.SUBJECT_VLAN}=$vlan=${Syntax.ADJECTIVE_TAGGED}=$i" -> "yes"
+        )
+      case (Syntax.VERB_ADD, Syntax.ADJECTIVE_UNTAGGED) =>
+        // config vlan v78 add untagged 22,24-25
+        Syntax.expandRange(data(3)).foreach((i: Int) =>
+          model += s"${Syntax.SUBJECT_VLAN}=$vlan=${Syntax.ADJECTIVE_UNTAGGED}=$i" -> "yes"
+        )
       case _ =>
-        (data(1), data(2)) match {
-          case (Syntax.VERB_ADD, Syntax.ADJECTIVE_TAGGED) =>
-            // config vlan v5 add tagged 24-26,28
-            Syntax.expandRange(data(3)).foreach((i: Int) =>
-              model += s"${Syntax.SUBJECT_VLAN}=$vlan=${Syntax.ADJECTIVE_TAGGED}=$i" -> "yes"
-            )
-          case (Syntax.VERB_ADD, Syntax.ADJECTIVE_UNTAGGED) =>
-            // config vlan v78 add untagged 22,24-25
-            Syntax.expandRange(data(3)).foreach((i: Int) =>
-              model += s"${Syntax.SUBJECT_VLAN}=$vlan=${Syntax.ADJECTIVE_UNTAGGED}=$i" -> "yes"
-            )
-          case _ =>
-        }
     }
   }
 

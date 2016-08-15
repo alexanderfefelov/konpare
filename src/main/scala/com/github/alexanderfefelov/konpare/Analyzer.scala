@@ -49,6 +49,11 @@ object Analyzer {
     val vlanNames = cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.PARAMETER_TAG}", ".*")
     Out.info("vlan names", vlanNames)
 
+    val defaultVlan = cut(model, s"${Syntax.SUBJECT_VLAN}=default=.*=(\\d+)", "yes").intersect(enabledPorts)
+    if (defaultVlan.nonEmpty) {
+      Out.warning("non-empty default vlan")
+    }
+
     val vlansWithoutPorts = vlanNames.diff(cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_TAGGED}=\\d+", "yes")
       .union(cut(model, s"${Syntax.SUBJECT_VLAN}=(.*)=${Syntax.ADJECTIVE_UNTAGGED}=\\d+", "yes"))
       .distinct)
