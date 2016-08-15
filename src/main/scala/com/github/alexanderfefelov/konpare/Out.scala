@@ -44,12 +44,20 @@ object Out {
   }
 
   private def print(prefix: String, message: String)(implicit conf: Conf, file: File) {
-    println(s"${if (conf.grepFriendlyOutput) file + " "}$prefix $message")
+    if (conf.grepFriendlyOutput) {
+      println(s"$file $prefix $message")
+    } else {
+      println(s"$prefix $message")
+    }
   }
 
   private def print(prefix: String, message: String, list: List[String])(implicit conf: Conf, file: File) {
     if (list.nonEmpty) {
-      println(s"${if (conf.grepFriendlyOutput) file + " "}$prefix $message: ${sortLexicographically(list).mkString(conf.outputListSeparator)}")
+      if (conf.grepFriendlyOutput) {
+        println(s"$file $prefix $message: ${sortLexicographically(list).mkString(conf.outputListSeparator)}")
+      } else {
+        println(s"$prefix $message: ${sortLexicographically(list).mkString(conf.outputListSeparator)}")
+      }
     }
   }
 
