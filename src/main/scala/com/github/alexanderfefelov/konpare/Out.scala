@@ -19,35 +19,37 @@
 
 package com.github.alexanderfefelov.konpare
 
+import java.io.File
+
 object Out {
 
-  def info(message: String) {
+  def info(message: String)(implicit conf: Conf, file: File) {
     print("INFO", message)
   }
 
-  def info(message: String, list: List[String])(implicit conf: Conf) {
+  def info(message: String, list: List[String])(implicit conf: Conf, file: File) {
     print("INFO", message, list)
   }
 
-  def warning(message: String) {
+  def warning(message: String)(implicit conf: Conf, file: File) {
     print("WARNING", message)
   }
 
-  def warning(message: String, list: List[String])(implicit conf: Conf) {
+  def warning(message: String, list: List[String])(implicit conf: Conf, file: File) {
     print("WARNING", message, list)
   }
 
-  def error(message: String, list: List[String])(implicit conf: Conf) {
+  def error(message: String, list: List[String])(implicit conf: Conf, file: File) {
     print("ERROR", message, list)
   }
 
-  private def print(prefix: String, message: String) {
-    println(s"$prefix $message")
+  private def print(prefix: String, message: String)(implicit conf: Conf, file: File) {
+    println(s"${if (conf.grepFriendlyOutput) file + " "}$prefix $message")
   }
 
-  private def print(prefix: String, message: String, list: List[String])(implicit conf: Conf) {
+  private def print(prefix: String, message: String, list: List[String])(implicit conf: Conf, file: File) {
     if (list.nonEmpty) {
-      println(s"$prefix $message: ${sortLexicographically(list).mkString(conf.outputListSeparator)}")
+      println(s"${if (conf.grepFriendlyOutput) file + " "}$prefix $message: ${sortLexicographically(list).mkString(conf.outputListSeparator)}")
     }
   }
 

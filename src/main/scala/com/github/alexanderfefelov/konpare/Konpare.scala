@@ -46,7 +46,7 @@ object Konpare extends App {
         System.exit(1)
     }
 
-    files foreach { file =>
+    files foreach { implicit file =>
       println(s"---===[ $file ]===---")
       try {
         val format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

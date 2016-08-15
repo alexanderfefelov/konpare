@@ -19,13 +19,14 @@
 
 package com.github.alexanderfefelov.konpare
 
+import java.io.File
 import java.net.InetAddress
 
 import com.github.alexanderfefelov.konpare.syntax.Syntax
 
 object Analyzer {
 
-  def analyze(model: collection.mutable.Map[String, String])(implicit conf: Conf) = {
+  def analyze(model: collection.mutable.Map[String, String])(implicit conf: Conf, file: File) = {
 
     Out.info("model: " + model.getOrElse(Syntax.MODEL, "unknown"))
     Out.info("f/w: " + model.getOrElse(Syntax.FW, "unknown"))

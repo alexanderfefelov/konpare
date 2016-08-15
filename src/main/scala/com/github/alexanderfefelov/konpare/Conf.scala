@@ -29,14 +29,15 @@ import scala.util.matching.Regex
 
 case class Conf (
 
-  input: File = new File("."),
-  syslogServers: Seq[InetAddress] = List.empty,
-  sntpServers: Seq[InetAddress] = List.empty,
-  dhcpRelays: Seq[InetAddress] = List.empty,
-  vlanNameRegex: Regex = "".r,
-  snmpReadRegex: Regex = "".r,
-  snmpWriteRegex: Regex = "".r,
-  outputListSeparator: String = " "
+                  input: File = new File("."),
+                  syslogServers: Seq[InetAddress] = List.empty,
+                  sntpServers: Seq[InetAddress] = List.empty,
+                  dhcpRelays: Seq[InetAddress] = List.empty,
+                  vlanNameRegex: Regex = "".r,
+                  snmpReadRegex: Regex = "".r,
+                  snmpWriteRegex: Regex = "".r,
+                  outputListSeparator: String = " ",
+                  grepFriendlyOutput: Boolean = false
 
 )
 
@@ -66,6 +67,8 @@ object Conf {
       c.copy(snmpWriteRegex = x) }
     opt[String]("output-list-separator") valueName "<STRING>" text "output list separator, one space by default" action { (x, c) =>
       c.copy(outputListSeparator = x) }
+    opt[Boolean]("grep-friendly-output") valueName "<BOOLEAN>" text "grep-friendly output, default false" action { (x, c) =>
+      c.copy(grepFriendlyOutput = x) }
     help("help") text "prints this usage text"
     checkConfig { conf => success }
   }
