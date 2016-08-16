@@ -28,7 +28,7 @@ object Stp extends Subject {
     data.head match {
       case Syntax.PARAMETER_PORTS =>
         // config stp ports 1-8 fbpdu enable
-        Syntax.expandRange(data(1)).foreach((i: Int) =>
+        Syntax.expandRange(data(1)).foreach( i =>
           Parser.addPairsToModel(data.drop(2), model, s"${Syntax.SUBJECT_STP}=$i")
         )
       case _ =>

@@ -34,7 +34,7 @@ object Fdb extends Subject {
       data.head match {
         case Syntax.PARAMETER_VLANID =>
           // config fdb vlan_learning vlanid 1,4-10 state enable
-          Syntax.expandRange(data(1)).foreach((i: Int) =>
+          Syntax.expandRange(data(1)).foreach( i =>
             Parser.addPairsToModel(data.drop(2), model, s"${Syntax.SUBJECT_FDB}=${Syntax.COMPLEMENT_VLAN_LEARNING}=$i")
           )
         case _ =>

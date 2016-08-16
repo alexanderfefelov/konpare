@@ -37,7 +37,7 @@ object PortSecurity extends Subject {
     data.head match {
       case Syntax.PARAMETER_PORTS =>
         // config port_security ports 1-28 admin_state disable max_learning_addr 1 lock_address_mode DeleteOnTimeout
-        Syntax.expandRange(data(1)).foreach((i: Int) =>
+        Syntax.expandRange(data(1)).foreach( i =>
           Parser.addPairsToModel(data.drop(2), model, s"${Syntax.SUBJECT_PORT_SECURITY}=$i")
         )
       case _ =>

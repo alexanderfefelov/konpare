@@ -29,17 +29,17 @@ object Lldp extends Subject {
         data(3) match {
           case Syntax.VALUE_ENABLE | Syntax.VALUE_DISABLE =>
             // config lldp ports 1-28 notification disable
-            Syntax.expandRange(data(1)).foreach((i: Int) =>
+            Syntax.expandRange(data(1)).foreach( i =>
               model += s"${Syntax.SUBJECT_LLDP}=$i=${data(2)}" -> data(3)
             )
           case _ if data(2) == Syntax.PARAMETER_ADMIN_STATUS =>
             // config lldp ports 1-28 admin_status tx_and_rx
-            Syntax.expandRange(data(1)).foreach((i: Int) =>
+            Syntax.expandRange(data(1)).foreach( i =>
               model += s"${Syntax.SUBJECT_LLDP}=$i=${data(2)}" -> data(3)
             )
           case _ if data(2) == Syntax.PARAMETER_BASIC_TLVS =>
             // config lldp ports 25 basic_tlvs port_description system_name system_description system_capabilities enable
-            Syntax.expandRange(data(1)).foreach((i: Int) =>
+            Syntax.expandRange(data(1)).foreach( i =>
               data.drop(3).foreach { param =>
                 model += s"${Syntax.SUBJECT_LLDP}=$i=${data(2)}=$param" -> param
               }

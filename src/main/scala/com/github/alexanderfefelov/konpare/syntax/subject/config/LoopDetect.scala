@@ -34,7 +34,7 @@ object LoopDetect extends Subject {
         data(3) match {
           case Syntax.VALUE_ENABLE | Syntax.VALUE_DISABLE =>
             // config loopdetect ports 1 state disable
-            Syntax.expandRange(data(1)).foreach((i: Int) =>
+            Syntax.expandRange(data(1)).foreach( i =>
               model += s"${Syntax.SUBJECT_LOOPDETECT}=$i=${data(2)}" -> data(3)
             )
           case _ =>

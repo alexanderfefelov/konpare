@@ -29,7 +29,7 @@ object DhcpRelay extends Subject {
         data(3) match {
           case Syntax.VALUE_ENABLE | Syntax.VALUE_DISABLE =>
             // config dhcp_relay ports 1-28 state enable
-            Syntax.expandRange(data(1)).foreach((i: Int) =>
+            Syntax.expandRange(data(1)).foreach( i =>
               model += s"${Syntax.SUBJECT_DHCP_RELAY}=$i=${data(2)}" -> data(3)
             )
           case _ =>

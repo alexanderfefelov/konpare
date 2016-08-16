@@ -25,7 +25,7 @@ import com.github.alexanderfefelov.konpare.syntax.{Syntax, Subject}
 object PortVlan extends Subject {
 
   override def process2(data: List[String], model: collection.mutable.Map[String, String]) = {
-    Syntax.expandRange(data.head).foreach((i: Int) =>
+    Syntax.expandRange(data.head).foreach( i =>
       // config port_vlan 1:1 gvrp_state disable ingress_checking enable acceptable_frame admit_all pvid 5
       Parser.addPairsToModel(data.tail, model, s"${Syntax.SUBJECT_PORT_VLAN}=$i")
     )

@@ -29,7 +29,7 @@ object QInQ extends Subject {
       case Syntax.PARAMETER_PORTS =>
         // config qinq ports 1-28  missdrop disable outer_tpid 0x88A8
         // config qinq ports 1-28  add_inner_tag disable
-        Syntax.expandRange(data(1)).foreach((i: Int) =>
+        Syntax.expandRange(data(1)).foreach( i =>
           Parser.addPairsToModel(data.drop(2), model, s"${Syntax.SUBJECT_QINQ}=$i")
         )
       case _ =>

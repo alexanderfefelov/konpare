@@ -39,7 +39,7 @@ object Traffic extends Subject {
       data.head.replaceAll("""\d:""", "") match { // Hack for stack. Uh
         case Syntax.RE_RANGE(range) =>
           // config traffic control 1:1 broadcast disable multicast disable unicast disable action drop broadcast_threshold 131072 multicast_threshold 131072 unicast_threshold 131072 countdown 0 time_interval 5
-          Syntax.expandRange(data.head).foreach((i: Int) =>
+          Syntax.expandRange(data.head).foreach( i =>
             Parser.addPairsToModel(data.tail, model, s"${Syntax.SUBJECT_TRAFFIC}=${Syntax.COMPLEMENT_CONTROL}=$i")
           )
         case Syntax.COMPLEMENT_LOG =>

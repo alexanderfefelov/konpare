@@ -34,7 +34,7 @@ object DhcpLocalRelay extends Subject {
       data.head match {
         case Syntax.PARAMETER_PORTS =>
           // config dhcp_local_relay option_82 ports 1-28 policy keep
-          Syntax.expandRange(data(1)).foreach((i: Int) =>
+          Syntax.expandRange(data(1)).foreach( i =>
             Parser.addPairsToModel(data.drop(2), model, s"${Syntax.SUBJECT_DHCP_LOCAL_RELAY}=${Syntax.COMPLEMENT_OPTION_82}=$i")
           )
         case _ =>

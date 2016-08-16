@@ -39,7 +39,7 @@ object Filter extends Subject {
           data(3) match {
             case Syntax.VALUE_ENABLE | Syntax.VALUE_DISABLE =>
               // config filter dhcp_server ports all state disable
-              Syntax.expandRange(data(1)).foreach((i: Int) =>
+              Syntax.expandRange(data(1)).foreach( i =>
                 model += s"${Syntax.SUBJECT_FILTER}=${Syntax.COMPLEMENT_DHCP_SERVER}=$i=${data(2)}" -> data(3)
               )
             case _ =>

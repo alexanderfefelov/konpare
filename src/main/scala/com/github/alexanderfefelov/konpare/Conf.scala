@@ -29,15 +29,15 @@ import scala.util.matching.Regex
 
 case class Conf (
 
-                  input: File = new File("."),
-                  syslogServers: Seq[InetAddress] = List.empty,
-                  sntpServers: Seq[InetAddress] = List.empty,
-                  dhcpRelays: Seq[InetAddress] = List.empty,
-                  vlanNameRegex: Regex = "".r,
-                  snmpReadRegex: Regex = "".r,
-                  snmpWriteRegex: Regex = "".r,
-                  outputListSeparator: String = " ",
-                  grepFriendlyOutput: Boolean = false
+  input: File = new File("."),
+  syslogServers: Seq[InetAddress] = List.empty,
+  sntpServers: Seq[InetAddress] = List.empty,
+  dhcpRelays: Seq[InetAddress] = List.empty,
+  vlanNameRegex: Regex = "".r,
+  snmpReadRegex: Regex = "".r,
+  snmpWriteRegex: Regex = "".r,
+  outputListSeparator: String = " ",
+  grepFriendlyOutput: Boolean = false
 
 )
 

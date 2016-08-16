@@ -25,7 +25,7 @@ import com.github.alexanderfefelov.konpare.syntax.{Syntax, Subject}
 object BandwidthControl extends Subject {
 
   override def process2(data: List[String], model: collection.mutable.Map[String, String]) = {
-    Syntax.expandRange(data.head).foreach((i: Int) =>
+    Syntax.expandRange(data.head).foreach( i =>
       // config bandwidth_control 1-24 rx_rate no_limit tx_rate no_limit
       Parser.addPairsToModel(data.tail, model, s"${Syntax.SUBJECT_BANDWIDTH_CONTROL}=$i")
     )

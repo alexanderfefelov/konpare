@@ -29,7 +29,7 @@ object JumboFrame extends Subject {
         data(3) match {
           case Syntax.VALUE_ENABLE | Syntax.VALUE_DISABLE =>
             // config jumbo_frame ports 1-28 state enable
-            Syntax.expandRange(data(1)).foreach((i: Int) =>
+            Syntax.expandRange(data(1)).foreach( i =>
               model += s"${Syntax.SUBJECT_JUMBO_FRAME}=$i=${data(2)}" -> data(3)
             )
           case _ =>
