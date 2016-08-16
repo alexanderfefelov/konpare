@@ -40,6 +40,7 @@ object Config extends Predicate {
     Syntax.SUBJECT_PORTS -> Ports,
     Syntax.SUBJECT_QINQ -> QInQ,
     Syntax.SUBJECT_SERIAL_PORT -> SerialPort,
+    Syntax.SUBJECT_SNMP -> Snmp,
     Syntax.SUBJECT_SNTP -> Sntp,
     Syntax.SUBJECT_STP -> Stp,
     Syntax.SUBJECT_SYSTEM_SEVERITY -> SystemSeverity,

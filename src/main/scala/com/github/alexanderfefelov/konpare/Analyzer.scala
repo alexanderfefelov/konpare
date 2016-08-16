@@ -30,6 +30,12 @@ object Analyzer {
 
     Out.info("model: " + model.getOrElse(Syntax.MODEL, "unknown"))
     Out.info("f/w: " + model.getOrElse(Syntax.FW, "unknown"))
+    model.get(s"${Syntax.SUBJECT_SNMP}=${Syntax.PARAMETER_SYSTEM_NAME}") match {
+      case Some(systemName) =>
+        Out.info(s"snmp system name: $systemName")
+      case _ =>
+        Out.warning("snmp system name not found")
+    }
 
     val enabledPorts = cut(model, s"${Syntax.SUBJECT_PORTS}=(\\d+)=${Syntax.PARAMETER_STATE}", Syntax.VALUE_ENABLE)
     Out.info("enabled ports", enabledPorts)

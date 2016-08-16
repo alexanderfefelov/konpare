@@ -109,6 +109,7 @@ object Syntax {
   final val PARAMETER_RX_RATE = "rx_rate"
   final val PARAMETER_SECONDARY = "secondary"
   final val PARAMETER_STATE = "state"
+  final val PARAMETER_SYSTEM_NAME = "system_name"
   final val PARAMETER_TAG = "tag"
   final val PARAMETER_TX_DELAY = "tx_delay"
   final val PARAMETER_TX_RATE = "tx_rate"
