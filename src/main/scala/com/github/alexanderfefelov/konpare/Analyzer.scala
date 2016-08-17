@@ -182,7 +182,7 @@ object Analyzer {
         val trunkPortsWithLldp = trunkPorts.diff(trunkPortsWithoutLldp)
         Out.warning("trunk ports without lldp", trunkPortsWithoutLldp)
         val lldpWithoutBasicTlvs = trunkPorts.diff(trunkPortsWithoutLldp).diff(cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_BASIC_TLVS}=${Syntax.VALUE_ENABLE}", Syntax.VALUE_ENABLE))
-        val trunkPortsWithBasicTlvs = trunkPortsWithLldp.intersect(lldpWithoutBasicTlvs)
+        val trunkPortsWithBasicTlvs = trunkPortsWithLldp.diff(lldpWithoutBasicTlvs)
         Out.warning("trunk ports with lldp and without basic_tlvs", lldpWithoutBasicTlvs)
         val basicTlvsWithoutSystemName = trunkPortsWithBasicTlvs.diff(cut(model, s"${Syntax.SUBJECT_LLDP}=(\\d+)=${Syntax.PARAMETER_BASIC_TLVS}=${Syntax.VALUE_SYSTEM_NAME}", Syntax.VALUE_SYSTEM_NAME))
         Out.warning("trunk ports with lldb and without system_name tlv", basicTlvsWithoutSystemName)
