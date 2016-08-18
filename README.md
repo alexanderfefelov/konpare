@@ -90,6 +90,12 @@ __konpare__ анализирует конфигурационные файлы �
 
 ## Ограничения и известные проблемы
 
+### filter dhcp_server log / filter dhcp_server trap_log
+
+Коммутаторы DES-3526 не поддерживают команды `config filter dhcp_server log enable` и `config filter dhcp_server trap_log enable`. Для таких коммутаторов будет выведено сообщение:
+
+    WARNING filter dhcp_server trap_log/filter dhcp_server log disabled
+
 ### loopdetect log
 
 Коммутаторы DES-1228/ME, DES-3200 H/W A1 и B1 и DES-3526 не поддерживают команду `config loopdetect log state enable`. Для таких коммутаторов будет выведено сообщение:
