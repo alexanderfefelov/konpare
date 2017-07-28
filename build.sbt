@@ -1,6 +1,6 @@
 name := """konpare"""
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.3"
 
 import com.atlassian.labs.gitstamp.GitStampPlugin._
 

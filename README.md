@@ -50,6 +50,7 @@ __konpare__ анализирует конфигурационные файлы �
 Для компиляции необходимы:
 
 * git <https://git-scm.com/downloads>
+* sbt <http://www.scala-sbt.org/>
 * Oracle JDK 8 <http://www.oracle.com/technetwork/java/javase/downloads/index.html>
 
 Для выполнения необходимы:
@@ -62,9 +63,9 @@ __konpare__ анализирует конфигурационные файлы �
 
     git clone https://github.com/alexanderfefelov/konpare.git
     cd konpare
-    activator assembly
+    sbt assembly
 
-В случае успеха в каталоге `target\scala-2.11` будет создан файл `konpare.jar`.
+В случае успеха в каталоге `target\scala-2.12` будет создан файл `konpare.jar`.
 
 ## Запуск
 
